@@ -6,6 +6,10 @@
 Vehicle* createVehicle(const char* id, const char* registrationPlate)
 {
     Vehicle* newVehicle = malloc(sizeof(Vehicle));
+    if(newVehicle == NULL)
+    {
+        return NULL;
+    }
 
     strcpy(newVehicle->id, id);
     strcpy(newVehicle->registrationPlate, registrationPlate); //strncpy?

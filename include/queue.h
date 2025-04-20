@@ -14,7 +14,7 @@ typedef struct {
 
 struct Node{
     Vehicle* data;
-    const char* destination[6]; // enum?
+    char destination[6]; // enum?
     Node* next;
     // Node* previous;
 };

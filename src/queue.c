@@ -11,13 +11,12 @@ void initialize_queue(Queue* q)
 
 bool isEmpty(Queue* q)
 {
-    return q->size>0 ? 0 : 1;
+    return q->size == 0;
 }
 
 void enqueue(Queue* q, Vehicle* v)
 {
     Node* newNode = (Node *)malloc(sizeof(Node));
-    // obsługa błedu alokacji?
     newNode->data = v;
     newNode->next = NULL;
 
@@ -42,9 +41,7 @@ Vehicle* dequeue(Queue* q)
     }
 
     Node* tempNode = q->front;
-    Vehicle* tempVehicle = (Vehicle *)malloc(sizeof(Vehicle));
-
-    tempVehicle = tempNode->data;
+    Vehicle* tempVehicle = tempNode->data;
     q->front = q->front->next;
 
     if(q->front == NULL)
@@ -69,5 +66,4 @@ void displayQueue(Queue* q)
         displayInfo(tempNode->data);
         tempNode=tempNode->next;
     }
-    free(tempNode);
 }

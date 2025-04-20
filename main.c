@@ -5,6 +5,7 @@
 
 int main() {
     Queue* queue = (Queue *)malloc(sizeof(Queue));
+    initialize_queue(queue);
 
     enqueue(queue, createVehicle("vehicle1", "ABC123"));
     enqueue(queue, createVehicle("vehicle2", "DEF456"));
@@ -27,6 +28,12 @@ int main() {
 
     printf("\nAfter adding another vehicle (now there are %d of them):\n", queue->size);
     displayQueue(queue);
+
+    while (!isEmpty(queue))
+    {
+        Vehicle* vehicle = dequeue(queue);
+        destroyVehicle(vehicle);
+    }
 
     free(queue);
 
