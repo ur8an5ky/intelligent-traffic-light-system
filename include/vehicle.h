@@ -1,13 +1,10 @@
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#pragma once
 
 typedef struct {
-    int id;
-    char registration_plate[9];
+    char id[12];
+    char registrationPlate[9];
 } Vehicle;
 
-Vehicle* create_vehicle(int id, const char* registration_plate);
-void destory_vehicle(Vehicle* vehicle);
-void display_info(Vehicle* vehicle);
-
-#endif // VEHICLE_H
+Vehicle* createVehicle(const char* id, const char* registrationPlate);
+void destroyVehicle(Vehicle* vehicle);
+void displayInfo(Vehicle* vehicle);

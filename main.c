@@ -1,18 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "vehicle.h"
+#include "queue.h"
 
 int main() {
-    Vehicle* vehicle1 = create_vehicle(123, "ABC1234S");
-    display_info(vehicle1);
+    Queue* queue = (Queue *)malloc(sizeof(Queue));
 
-    Vehicle* vehicle2 = create_vehicle(456, "XYZ56U78");
-    display_info(vehicle2);
+    enqueue(queue, createVehicle("vehicle1", "ABC123"));
+    enqueue(queue, createVehicle("vehicle2", "DEF456"));
+    enqueue(queue, createVehicle("vehicle3", "GHI789"));
 
-    display_info(vehicle1);
-    display_info(vehicle2);
+    printf("After adding vehicles (now there are %d of them):\n", queue->size);
+    displayQueue(queue);
 
-    destory_vehicle(vehicle1);
-    destory_vehicle(vehicle2);
+    Vehicle* dequeued = dequeue(queue);
+    if (dequeued)
+    {
+        printf("\nVehicle removed: %s\n", dequeued->registrationPlate);
+        free(dequeued);
+    }
+
+    printf("\nAfter removing first vehicle (now there are %d of them):\n", queue->size);
+    displayQueue(queue);
+
+    enqueue(queue, createVehicle("vehicle4", "JKL012"));
+
+    printf("\nAfter adding another vehicle (now there are %d of them):\n", queue->size);
+    displayQueue(queue);
+
+    free(queue);
 
     return 0;
 }

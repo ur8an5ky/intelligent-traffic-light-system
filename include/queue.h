@@ -1,25 +1,27 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#pragma once
 
-#include <vehicle.h>
-#define MAX_SIZE 25 // testing value
+#include "vehicle.h"
+
+#include <stdbool.h>
+
+typedef struct Node Node;
 
 typedef struct {
     Node* front;
-    Node* rear;
+    Node* back;
+    int size;
 } Queue;
 
-typedef struct {
-    Vehicle data;
+struct Node{
+    Vehicle* data;
+    const char* destination[6]; // enum?
     Node* next;
-} Node;
+    // Node* previous;
+};
 
 void initialize_queue(Queue* q);
-bool is_empty(Queue* q);
-bool is_full(Queue* q);
+bool isEmpty(Queue* q);
+// bool is_full(Queue* q);
 void enqueue(Queue* q, Vehicle* value);
 Vehicle* dequeue(Queue* q);
-Vehicle* display(Queue* q);
-void print_queue(Queue* q);  
-
-#endif // QUEUE_H
+void displayQueue(Queue* q);
