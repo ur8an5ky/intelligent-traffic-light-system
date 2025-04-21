@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 
 main
+# for now - will be deleted
+tests/
