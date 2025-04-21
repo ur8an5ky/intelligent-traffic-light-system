@@ -1,21 +1,24 @@
 #include <stdio.h>
+// #include <stdlib.h>
 #include "traffic_lights.h"
 
-int main() {
-    initializeTrafficLights();
+int main()
+{
+    TrafficLights lights;
 
-    printf("Initial state:\n");
-    displayTrafficLightInfo(&greenLight);
-    displayTrafficLightInfo(&yellowLight);
-    displayTrafficLightInfo(&redLight);
+    initializeTrafficLights(&lights);
 
-    printf("\nUpdating green light:\n");
-    updateTrafficLightState(&greenLight);
-    displayTrafficLightInfo(&greenLight);
+    printf("Initial states:\n");
+    displayTrafficLightsInfo(&lights);
 
-    printf("\nUpdating red light:\n");
-    updateTrafficLightState(&redLight);
-    displayTrafficLightInfo(&redLight);
+    updateTrafficLightState(lights.greenLight);
+    // updateTrafficLightState(lights.yellowLight);
+    // updateTrafficLightState(lights.redLight);
+
+    printf("\nAfter updating the states:\n");
+    displayTrafficLightsInfo(&lights);
+
+    destroyTrafficLights(&lights);
 
     return 0;
 }
