@@ -2,6 +2,34 @@
 #include <stdio.h>
 #include <stdlib.h> // malloc, free
 
+Queue* createQueue()
+{
+    Queue* newQueue = (Queue*)malloc(sizeof(Queue));
+    if(newQueue == NULL)
+    {
+        return NULL;
+    }
+    
+    initialize_queue(newQueue);
+    return newQueue;
+}
+
+void destroyQueue(Queue* q)
+{
+    if(q == NULL)
+    {
+        return;
+    }
+
+    while(!isEmpty(q))
+    {
+        Vehicle* vehicle = dequeue(q);
+        destroyVehicle(vehicle);
+    }
+
+    free(q);
+}
+
 void initialize_queue(Queue* q)
 {
     q->front = NULL;

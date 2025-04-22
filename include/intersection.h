@@ -12,6 +12,7 @@ typedef struct {
     Roadway* westRoadway;
 } Intersection;
 
+Intersection* createIntersection();
 void initializeIntersection(Intersection* intersection);
 // void updateIntersectionState(Intersection* intersection);
 void displayIntersectionInfo(const Intersection* intersection);

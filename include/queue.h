@@ -19,9 +19,11 @@ struct Node{
     // Node* previous;
 };
 
+Queue* createQueue();
+void destroyQueue(Queue* q);
 void initialize_queue(Queue* q);
 bool isEmpty(Queue* q);
 // bool is_full(Queue* q);
-void enqueue(Queue* q, Vehicle* value);
+void enqueue(Queue* q, Vehicle* v);
 Vehicle* dequeue(Queue* q);
 void displayQueue(Queue* q);

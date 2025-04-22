@@ -5,12 +5,33 @@
 
 const char* colorNames[] = {"green", "yellow", "red"/*, "greenArrow"*/};
 
+TrafficLights* createTrafficLights()
+{
+    TrafficLights* newLights = (TrafficLights*)malloc(sizeof(TrafficLights));
+    if(newLights == NULL)
+    {
+        return NULL;
+    }
+
+    newLights->greenLight = (TrafficLight*)malloc(sizeof(TrafficLight));
+    newLights->yellowLight = (TrafficLight*)malloc(sizeof(TrafficLight));
+    newLights->redLight = (TrafficLight*)malloc(sizeof(TrafficLight));
+
+    if(newLights->greenLight == NULL || newLights->yellowLight == NULL || newLights->redLight == NULL)
+    {
+        free(newLights->greenLight);
+        free(newLights->yellowLight);
+        free(newLights->redLight);
+        free(newLights);
+        return NULL;
+    }
+
+    initializeTrafficLights(newLights);
+    return newLights;
+}
+
 void initializeTrafficLights(TrafficLights* lights)
 {
-    lights->greenLight = (TrafficLight*)malloc(sizeof(TrafficLight));
-    lights->yellowLight = (TrafficLight*)malloc(sizeof(TrafficLight));
-    lights->redLight = (TrafficLight*)malloc(sizeof(TrafficLight));
-
     lights->greenLight->color = GREEN;
     lights->greenLight->isActive = 0;
 

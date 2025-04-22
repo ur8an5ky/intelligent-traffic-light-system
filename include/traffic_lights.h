@@ -11,17 +11,13 @@ typedef struct {
     bool isActive;
 } TrafficLight;
 
-// extern TrafficLight greenLight;
-// extern TrafficLight yellowLight;
-// extern TrafficLight redLight;
-static TrafficLight greenArrow;
-
 typedef struct {
     TrafficLight* greenLight;
     TrafficLight* yellowLight;
     TrafficLight* redLight;
 } TrafficLights;
 
+TrafficLights* createTrafficLights();
 void initializeTrafficLights(TrafficLights* lights);
 void updateTrafficLightState(TrafficLight* light);
 void displayTrafficLightsInfo(const TrafficLights* lights);
