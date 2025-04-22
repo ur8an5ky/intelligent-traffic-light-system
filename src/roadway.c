@@ -19,6 +19,18 @@ Roadway* createRoadway()
     return newRoadway;
 }
 
+void destroyRoadway(Roadway* roadway)
+{
+    if(roadway == NULL)
+    {
+        return;
+    }
+
+    destroyQueue(roadway->straightLane);
+    destroyTrafficLights(roadway->straightLights);
+    free(roadway);
+}
+
 void initializeRoadway(Roadway* roadway)
 {
     if(roadway == NULL)
@@ -47,21 +59,8 @@ void displayRoadway(const Roadway* roadway)
     printf("\tQueue size: %d\n", roadway->straightLane->size);
     displayQueue(roadway->straightLane);
 
-    // Wyświetl informacje o światłach
     printf("\nTraffic Lights:\n");
     displayTrafficLightsInfo(roadway->straightLights);
 
     printf("--------------------\n");
-}
-
-void destroyRoadway(Roadway* roadway)
-{
-    if(roadway == NULL)
-    {
-        return;
-    }
-
-    destroyQueue(roadway->straightLane);
-    destroyTrafficLights(roadway->straightLights);
-    free(roadway);
 }

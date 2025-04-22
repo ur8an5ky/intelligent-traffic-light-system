@@ -12,7 +12,7 @@ typedef struct {
 } Roadway;
 
 Roadway* createRoadway();
+void destroyRoadway(Roadway* roadway);
 void initializeRoadway(Roadway* roadway);
 // void updateRoadwayState(Roadway* roadway);
 void displayRoadway(const Roadway* roadway);
-void destroyRoadway(Roadway* roadway);

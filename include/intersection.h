@@ -13,7 +13,7 @@ typedef struct {
 } Intersection;
 
 Intersection* createIntersection();
+void destroyIntersection(Intersection* intersection);
 void initializeIntersection(Intersection* intersection);
 // void updateIntersectionState(Intersection* intersection);
 void displayIntersectionInfo(const Intersection* intersection);
-void destroyIntersection(Intersection* intersection);
