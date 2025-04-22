@@ -19,6 +19,11 @@ Vehicle* createVehicle(const char* id, const char* registrationPlate)
 
 void destroyVehicle(Vehicle* vehicle)
 {
+    if(vehicle == NULL)
+    {
+        return;
+    }
+
     free(vehicle);
 }
 

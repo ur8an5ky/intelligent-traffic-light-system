@@ -18,7 +18,7 @@ typedef struct {
 } TrafficLights;
 
 TrafficLights* createTrafficLights();
+void destroyTrafficLights(TrafficLights* lights);
 void initializeTrafficLights(TrafficLights* lights);
 void updateTrafficLightState(TrafficLight* light);
 void displayTrafficLightsInfo(const TrafficLights* lights);
-void destroyTrafficLights(TrafficLights* lights);

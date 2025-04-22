@@ -56,10 +56,14 @@ void displayTrafficLightsInfo(const TrafficLights* lights)
 
 void destroyTrafficLights(TrafficLights* lights)
 {
-    if (lights != NULL)
+    if(lights == NULL)
     {
-        free(lights->greenLight);
-        free(lights->yellowLight);
-        free(lights->redLight);
+        return;
     }
+
+    free(lights->greenLight);
+    free(lights->yellowLight);
+    free(lights->redLight);
+
+    free(lights);
 }
