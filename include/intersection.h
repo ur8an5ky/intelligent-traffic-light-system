@@ -16,4 +16,4 @@ Intersection* createIntersection();
 void destroyIntersection(Intersection* intersection);
 void initializeIntersection(Intersection* intersection);
 // void updateIntersectionState(Intersection* intersection);
-void displayIntersectionInfo(const Intersection* intersection);
+void displayIntersection(const Intersection* intersection);

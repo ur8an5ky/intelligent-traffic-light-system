@@ -48,7 +48,6 @@ void displayRoadway(const Roadway* roadway)
 {
     if(roadway == NULL)
     {
-        printf("Roadway is emoty\n");
         return;
     }
 
