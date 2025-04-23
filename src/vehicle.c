@@ -3,7 +3,7 @@
 #include <stdlib.h> // malloc, free
 #include <string.h> // strcpy
 
-Vehicle* createVehicle(const char* id, const char* registrationPlate)
+Vehicle* createVehicle(const char* id, const char* registrationPlate, const char* destination)
 {
     Vehicle* newVehicle = malloc(sizeof(Vehicle));
     if(newVehicle == NULL)
@@ -11,8 +11,13 @@ Vehicle* createVehicle(const char* id, const char* registrationPlate)
         return NULL;
     }
 
-    strcpy(newVehicle->id, id);
-    strcpy(newVehicle->registrationPlate, registrationPlate); //strncpy?
+    strncpy(newVehicle->id, id, sizeof(newVehicle->id) - 1);
+    strncpy(newVehicle->registrationPlate, registrationPlate, sizeof(newVehicle->registrationPlate) - 1);
+    strncpy(newVehicle->endRoad, destination, sizeof(newVehicle->endRoad) - 1);
+    
+    newVehicle->id[sizeof(newVehicle->id) - 1] = '\0';
+    newVehicle->registrationPlate[sizeof(newVehicle->registrationPlate) - 1] = '\0';
+    newVehicle->endRoad[sizeof(newVehicle->endRoad) - 1] = '\0';
 
     return newVehicle;
 }
@@ -29,5 +34,5 @@ void destroyVehicle(Vehicle* vehicle)
 
 void displayInfo(Vehicle* vehicle)
 {
-    printf("Vehicle of id=%s has the following registration number:%s\n", vehicle->id, vehicle->registrationPlate);
+    printf("[Vehicle id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);
 }

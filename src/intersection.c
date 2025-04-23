@@ -1,6 +1,7 @@
 #include "intersection.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 Intersection* createIntersection()
 {
@@ -48,8 +49,6 @@ void initializeIntersection(Intersection* intersection)
     intersection->westRoadway = createRoadway();
 }
 
-// void updateIntersectionState(Intersection* intersection)
-
 void displayIntersection(const Intersection* intersection)
 {
     if(intersection == NULL)
@@ -77,4 +76,24 @@ void displayIntersection(const Intersection* intersection)
     printf("*********************\n");
 
     printf("#####################\n");
+}
+
+void addVehicleToIntersection(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction)
+{
+    if(strcmp(startRoad, "north") == 0)
+    {
+        enqueue(intersection->northRoadway->straightLane, vehicle, direction);
+    }
+    else if(strcmp(startRoad, "east") == 0)
+    {
+        enqueue(intersection->eastRoadway->straightLane, vehicle, direction);
+    }
+    else if(strcmp(startRoad, "south") == 0)
+    {
+        enqueue(intersection->southRoadway->straightLane, vehicle, direction);
+    }
+    else if(strcmp(startRoad, "west") == 0)
+    {
+        enqueue(intersection->westRoadway->straightLane, vehicle, direction);
+    }
 }

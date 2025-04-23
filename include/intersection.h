@@ -15,5 +15,5 @@ typedef struct {
 Intersection* createIntersection();
 void destroyIntersection(Intersection* intersection);
 void initializeIntersection(Intersection* intersection);
-// void updateIntersectionState(Intersection* intersection);
 void displayIntersection(const Intersection* intersection);
+void addVehicleToIntersection(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction);
