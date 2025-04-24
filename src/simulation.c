@@ -16,6 +16,7 @@ Simulation* simulation_create()
     newSimulation->intersection = intersection_create();
     newSimulation->currentTime = 0.0;
     newSimulation->timeStep = 1.0;
+    newSimulation->leftVehiclesCount = 0;
     newSimulation->leftVehicles = queue_create();
 
     return newSimulation;

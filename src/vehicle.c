@@ -11,7 +11,9 @@ Vehicle* vehicle_create(const char* id, /*const char* registrationPlate,*/ const
         return NULL;
     }
 
-    strcpy(newVehicle->id, id);
+    strncpy(newVehicle->id, id, sizeof(newVehicle->id) - 1);
+    newVehicle->id[sizeof(newVehicle->id) - 1] = '\0';
+
     strncpy(newVehicle->endRoad, destination, sizeof(newVehicle->endRoad) - 1);
     newVehicle->endRoad[sizeof(newVehicle->endRoad) - 1] = '\0';
 

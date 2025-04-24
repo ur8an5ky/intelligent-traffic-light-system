@@ -17,7 +17,7 @@ TARGET = main
 
 CFLAGS = -Wall -Wextra -std=c11
 LDFLAGS = -L/usr/lib/x86_64-linux-gnu -ljansson
-TEST_LDFLAGS = -lcheck -lsubunit -lm
+TEST_LDFLAGS = -lcheck -lsubunit -lm -ljansson
 
 all: $(TARGET)
 
@@ -30,9 +30,13 @@ main.o: main.c $(wildcard include/*.h)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(wildcard include/*.h) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Compile test executables
-$(TEST_BIN_DIR)/%: $(TEST_DIR)/%_test.c $(OBJ_DIR)/vehicle.o
-	$(CC) $(CFLAGS) -o $@ $< $(OBJ_DIR)/vehicle.o $(TEST_LDFLAGS)
+# Compile test executables and link with necessary object files
+$(TEST_BIN_DIR)/%: $(TEST_DIR)/%_test.c $(OBJ_DIR)/vehicle.o $(OBJ_DIR)/queue.o \
+										$(OBJ_DIR)/traffic_lights.o $(OBJ_DIR)/roadway.o \
+										$(OBJ_DIR)/intersection.o $(OBJ_DIR)/simulation.o 
+	$(CC) $(CFLAGS) -o $@ $< $(OBJ_DIR)/vehicle.o $(OBJ_DIR)/queue.o \
+								$(OBJ_DIR)/traffic_lights.o $(OBJ_DIR)/roadway.o \
+								$(OBJ_DIR)/intersection.o $(OBJ_DIR)/simulation.o $(TEST_LDFLAGS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
