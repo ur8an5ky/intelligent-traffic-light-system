@@ -8,15 +8,15 @@ def parse_commands(json_file):
     vehicles = []
     for command in data['commands']:
         if command['type'] == 'addVehicle':
-            vehicle_info = {
-                'vehicleId': command['vehicleId'],
-                'startRoad': command['startRoad'],
-                'endRoad': command['endRoad']
-            }
+            vehicle_info = [
+                command['vehicleId'],
+                command['startRoad'],
+                command['endRoad']
+            ]
             vehicles.append(vehicle_info)
-            print(f"{vehicle_info}")
+            print(f"{','.join(map(str, vehicle_info))}")
         elif command['type'] == 'step':
-            print("Step.")
+            print("Step")
 
     return vehicles
 
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     json_file = sys.argv[1]
     vehicles = parse_commands(json_file)
     
-    print(json.dumps(vehicles))
+    print(json.dumps([list(v) for v in vehicles]))
