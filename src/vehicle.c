@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Vehicle* createVehicle(const char* id, const char* registrationPlate, const char* destination)
+Vehicle* createVehicle(const char* id, /*const char* registrationPlate,*/ const char* destination)
 {
     Vehicle* newVehicle = malloc(sizeof(Vehicle));
     if(newVehicle == NULL)
@@ -12,11 +12,11 @@ Vehicle* createVehicle(const char* id, const char* registrationPlate, const char
     }
 
     strncpy(newVehicle->id, id, sizeof(newVehicle->id) - 1);
-    strncpy(newVehicle->registrationPlate, registrationPlate, sizeof(newVehicle->registrationPlate) - 1);
+    // strncpy(newVehicle->registrationPlate, registrationPlate, sizeof(newVehicle->registrationPlate) - 1);
     strncpy(newVehicle->endRoad, destination, sizeof(newVehicle->endRoad) - 1);
     
     newVehicle->id[sizeof(newVehicle->id) - 1] = '\0';
-    newVehicle->registrationPlate[sizeof(newVehicle->registrationPlate) - 1] = '\0';
+    // newVehicle->registrationPlate[sizeof(newVehicle->registrationPlate) - 1] = '\0';
     newVehicle->endRoad[sizeof(newVehicle->endRoad) - 1] = '\0';
 
     return newVehicle;
@@ -34,5 +34,6 @@ void destroyVehicle(Vehicle* vehicle)
 
 void displayInfo(Vehicle* vehicle)
 {
-    printf("[id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);
+    printf("[id=%s and destination road:%s]; ", vehicle->id, vehicle->endRoad);
+    // printf("[id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);
 }

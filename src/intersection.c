@@ -56,7 +56,6 @@ void displayIntersection(const Intersection* intersection)
         return;
     }
 
-    // printf("Intersection Information:\n");
     printf("###############################################################\n");
 
     printf("North Roadway:  ");

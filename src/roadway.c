@@ -49,15 +49,6 @@ void displayRoadway(const Roadway* roadway)
         return;
     }
 
-    // printf("Roadway Information:\n");
-    // printf("--------------------\n");
-
-    // printf("Straight Lane:\n");
     displayQueue(roadway->straightLane);
     printf("\tSize: %d\n", roadway->straightLane->size);
-
-    // printf("\nTraffic Lights:\n");
-    // displayTrafficLightsInfo(roadway->straightLights);
-
-    // printf("--------------------\n");
 }
