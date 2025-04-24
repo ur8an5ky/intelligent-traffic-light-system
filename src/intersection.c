@@ -56,26 +56,22 @@ void displayIntersection(const Intersection* intersection)
         return;
     }
 
-    printf("Intersection Information:\n");
-    printf("#####################\n");
+    // printf("Intersection Information:\n");
+    printf("###############################################################\n");
 
-    printf("North Roadway:\n");
+    printf("North Roadway:  ");
     displayRoadway(intersection->northRoadway);
-    printf("*********************\n");
 
-    printf("East Roadway:\n");
+    printf("East Roadway:  ");
     displayRoadway(intersection->eastRoadway);
-    printf("*********************\n");
 
-    printf("South Roadway:\n");
+    printf("South Roadway:  ");
     displayRoadway(intersection->southRoadway);
-    printf("*********************\n");
 
-    printf("West Roadway:\n");
+    printf("West Roadway:  ");
     displayRoadway(intersection->westRoadway);
-    printf("*********************\n");
 
-    printf("#####################\n");
+    printf("###############################################################\n");
 }
 
 void addVehicleToIntersection(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction)

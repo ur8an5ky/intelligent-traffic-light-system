@@ -59,5 +59,5 @@ void displayRoadway(const Roadway* roadway)
     // printf("\nTraffic Lights:\n");
     // displayTrafficLightsInfo(roadway->straightLights);
 
-    printf("--------------------\n");
+    // printf("--------------------\n");
 }

@@ -1,7 +1,7 @@
 #include "vehicle.h"
 #include <stdio.h>
-#include <stdlib.h> // malloc, free
-#include <string.h> // strcpy
+#include <stdlib.h>
+#include <string.h>
 
 Vehicle* createVehicle(const char* id, const char* registrationPlate, const char* destination)
 {
@@ -34,5 +34,5 @@ void destroyVehicle(Vehicle* vehicle)
 
 void displayInfo(Vehicle* vehicle)
 {
-    printf("[Vehicle id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);
+    printf("[id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);
 }
