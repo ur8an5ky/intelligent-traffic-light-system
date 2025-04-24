@@ -24,4 +24,4 @@ if __name__ == "__main__":
     json_file = sys.argv[1]
     vehicles = parse_commands(json_file)
     
-    print(json.dumps([list(v) for v in vehicles]))
+    # print(json.dumps([list(v) for v in vehicles]))
