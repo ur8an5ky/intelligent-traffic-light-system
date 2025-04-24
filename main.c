@@ -33,19 +33,19 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    Simulation* simulation = createSimulation();
+    Simulation* simulation = simulation_create();
 
     char line[1024];
     while(fgets(line, sizeof(line), fp) != NULL)
     {
         line[strcspn(line, "\n")] = 0;
 
-        runSimulation(simulation, line);
+        simulation_run(simulation, line);
     }
 
     pclose(fp);
 
-    char *final_json = runSimulation(simulation, NULL);
+    char *final_json = simulation_run(simulation, NULL);
 
     FILE *outputFile = fopen(outputFilePath, "w");
     if(outputFile)
@@ -61,6 +61,6 @@ int main(int argc, char *argv[])
 
     free(final_json);
 
-    destroySimulation(simulation);
+    simulation_destroy(simulation);
     return EXIT_SUCCESS;
 }

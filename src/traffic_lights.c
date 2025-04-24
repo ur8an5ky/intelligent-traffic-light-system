@@ -5,7 +5,7 @@
 
 const char* colorNames[] = {"green", "yellow", "red"/*, "greenArrow"*/};
 
-TrafficLights* createTrafficLights()
+TrafficLights* trafficLights_create()
 {
     TrafficLights* newLights = (TrafficLights*)malloc(sizeof(TrafficLights));
     if(newLights == NULL)
@@ -26,11 +26,11 @@ TrafficLights* createTrafficLights()
         return NULL;
     }
 
-    initializeTrafficLights(newLights);
+    trafficLights_initialize(newLights);
     return newLights;
 }
 
-void initializeTrafficLights(TrafficLights* lights)
+void trafficLights_initialize(TrafficLights* lights)
 {
     lights->greenLight->color = GREEN;
     lights->greenLight->isActive = 0;
@@ -42,19 +42,19 @@ void initializeTrafficLights(TrafficLights* lights)
     lights->redLight->isActive = 0;
 }
 
-void updateTrafficLightState(TrafficLight* light)
+void trafficLights_update(TrafficLight* light)
 {
     light->isActive = !light->isActive;
 }
 
-void displayTrafficLightsInfo(const TrafficLights* lights)
+void trafficLights_displayInfo(const TrafficLights* lights)
 {
     printf("That traffic light's color is %s and it's %sactive\n", colorNames[lights->greenLight->color], lights->greenLight->isActive ? "" : "not");
     printf("That traffic light's color is %s and it's %sactive\n", colorNames[lights->yellowLight->color], lights->yellowLight->isActive ? "" : "not");
     printf("That traffic light's color is %s and it's %sactive\n", colorNames[lights->redLight->color], lights->redLight->isActive ? "" : "not");
 }
 
-void destroyTrafficLights(TrafficLights* lights)
+void trafficLights_destroy(TrafficLights* lights)
 {
     if(lights == NULL)
     {

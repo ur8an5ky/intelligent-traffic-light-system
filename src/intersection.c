@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Intersection* createIntersection()
+Intersection* intersection_create()
 {
     Intersection* newIntersection = (Intersection*)malloc(sizeof(Intersection));
 
@@ -17,39 +17,39 @@ Intersection* createIntersection()
     newIntersection->southRoadway = NULL;
     newIntersection->westRoadway = NULL;
 
-    initializeIntersection(newIntersection);
+    intersection_initialize(newIntersection);
 
     return newIntersection;
 }
 
-void destroyIntersection(Intersection* intersection)
+void intersection_destroy(Intersection* intersection)
 {
     if(intersection == NULL)
     {
         return;
     }
 
-    destroyRoadway(intersection->northRoadway);
-    destroyRoadway(intersection->eastRoadway);
-    destroyRoadway(intersection->southRoadway);
-    destroyRoadway(intersection->westRoadway);
+    roadway_destroy(intersection->northRoadway);
+    roadway_destroy(intersection->eastRoadway);
+    roadway_destroy(intersection->southRoadway);
+    roadway_destroy(intersection->westRoadway);
     free(intersection);
 }
 
-void initializeIntersection(Intersection* intersection)
+void intersection_initialize(Intersection* intersection)
 {
     if(intersection == NULL)
     {
         return;
     }
 
-    intersection->northRoadway = createRoadway();
-    intersection->eastRoadway = createRoadway();
-    intersection->southRoadway = createRoadway();
-    intersection->westRoadway = createRoadway();
+    intersection->northRoadway = roadway_create();
+    intersection->eastRoadway = roadway_create();
+    intersection->southRoadway = roadway_create();
+    intersection->westRoadway = roadway_create();
 }
 
-void displayIntersection(const Intersection* intersection)
+void intersection_displayInfo(const Intersection* intersection)
 {
     if(intersection == NULL)
     {
@@ -59,36 +59,36 @@ void displayIntersection(const Intersection* intersection)
     printf("###############################################################\n");
 
     printf("North Roadway:  ");
-    displayRoadway(intersection->northRoadway);
+    roadway_displayInfo(intersection->northRoadway);
 
     printf("East Roadway:  ");
-    displayRoadway(intersection->eastRoadway);
+    roadway_displayInfo(intersection->eastRoadway);
 
     printf("South Roadway:  ");
-    displayRoadway(intersection->southRoadway);
+    roadway_displayInfo(intersection->southRoadway);
 
     printf("West Roadway:  ");
-    displayRoadway(intersection->westRoadway);
+    roadway_displayInfo(intersection->westRoadway);
 
     printf("###############################################################\n");
 }
 
-void addVehicleToIntersection(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction)
+void intersection_addVehicle(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction)
 {
     if(strcmp(startRoad, "north") == 0)
     {
-        enqueue(intersection->northRoadway->straightLane, vehicle, direction);
+        queue_push(intersection->northRoadway->straightLane, vehicle, direction);
     }
     else if(strcmp(startRoad, "east") == 0)
     {
-        enqueue(intersection->eastRoadway->straightLane, vehicle, direction);
+        queue_push(intersection->eastRoadway->straightLane, vehicle, direction);
     }
     else if(strcmp(startRoad, "south") == 0)
     {
-        enqueue(intersection->southRoadway->straightLane, vehicle, direction);
+        queue_push(intersection->southRoadway->straightLane, vehicle, direction);
     }
     else if(strcmp(startRoad, "west") == 0)
     {
-        enqueue(intersection->westRoadway->straightLane, vehicle, direction);
+        queue_push(intersection->westRoadway->straightLane, vehicle, direction);
     }
 }

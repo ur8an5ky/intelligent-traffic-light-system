@@ -6,6 +6,6 @@ typedef struct {
     char endRoad[6];
 } Vehicle;
 
-Vehicle* createVehicle(const char* id, /*const char* registrationPlate,*/ const char* destination);
-void destroyVehicle(Vehicle* vehicle);
-void displayInfo(Vehicle* vehicle);
+Vehicle* vehicle_create(const char* id, /*const char* registrationPlate,*/ const char* destination);
+void vehicle_destroy(Vehicle* vehicle);
+void vehicle_displayInfo(Vehicle* vehicle);

@@ -12,8 +12,8 @@ typedef struct {
     Roadway* westRoadway;
 } Intersection;
 
-Intersection* createIntersection();
-void destroyIntersection(Intersection* intersection);
-void initializeIntersection(Intersection* intersection);
-void displayIntersection(const Intersection* intersection);
-void addVehicleToIntersection(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction);
+Intersection* intersection_create();
+void intersection_destroy(Intersection* intersection);
+void intersection_initialize(Intersection* intersection);
+void intersection_displayInfo(const Intersection* intersection);
+void intersection_addVehicle(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction);

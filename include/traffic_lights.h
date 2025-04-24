@@ -17,8 +17,8 @@ typedef struct {
     TrafficLight* redLight;
 } TrafficLights;
 
-TrafficLights* createTrafficLights();
-void destroyTrafficLights(TrafficLights* lights);
-void initializeTrafficLights(TrafficLights* lights);
-void updateTrafficLightState(TrafficLight* light);
-void displayTrafficLightsInfo(const TrafficLights* lights);
+TrafficLights* trafficLights_create();
+void trafficLights_destroy(TrafficLights* lights);
+void trafficLights_initialize(TrafficLights* lights);
+void trafficLights_update(TrafficLight* light);
+void trafficLights_displayInfo(const TrafficLights* lights);

@@ -11,7 +11,7 @@ typedef struct {
     // TrafficLights* leftLights;
 } Roadway;
 
-Roadway* createRoadway();
-void destroyRoadway(Roadway* roadway);
-void initializeRoadway(Roadway* roadway);
-void displayRoadway(const Roadway* roadway);
+Roadway* roadway_create();
+void roadway_destroy(Roadway* roadway);
+void roadway_initialize(Roadway* roadway);
+void roadway_displayInfo(const Roadway* roadway);

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Roadway* createRoadway()
+Roadway* roadway_create()
 {
     Roadway* newRoadway = (Roadway*)malloc(sizeof(Roadway));
 
@@ -14,41 +14,41 @@ Roadway* createRoadway()
     newRoadway->straightLane = NULL;
     newRoadway->straightLights = NULL;
 
-    initializeRoadway(newRoadway);
+    roadway_initialize(newRoadway);
 
     return newRoadway;
 }
 
-void destroyRoadway(Roadway* roadway)
+void roadway_destroy(Roadway* roadway)
 {
     if(roadway == NULL)
     {
         return;
     }
 
-    destroyQueue(roadway->straightLane);
-    destroyTrafficLights(roadway->straightLights);
+    queue_destroy(roadway->straightLane);
+    trafficLights_destroy(roadway->straightLights);
     free(roadway);
 }
 
-void initializeRoadway(Roadway* roadway)
+void roadway_initialize(Roadway* roadway)
 {
     if(roadway == NULL)
     {
         return;
     }
 
-    roadway->straightLane = createQueue();
-    roadway->straightLights = createTrafficLights();
+    roadway->straightLane = queue_create();
+    roadway->straightLights = trafficLights_create();
 }
 
-void displayRoadway(const Roadway* roadway)
+void roadway_displayInfo(const Roadway* roadway)
 {
     if(roadway == NULL)
     {
         return;
     }
 
-    displayQueue(roadway->straightLane);
+    queue_display(roadway->straightLane);
     printf("\tSize: %d\n", roadway->straightLane->size);
 }

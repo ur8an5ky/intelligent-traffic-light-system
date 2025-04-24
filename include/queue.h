@@ -19,10 +19,10 @@ struct Node {
     Node* next;
 };
 
-Queue* createQueue();
-void destroyQueue(Queue* q);
-void initialize_queue(Queue* q);
-bool isEmpty(Queue* q);
-void enqueue(Queue* q, Vehicle* v, const char* destination);
-Vehicle* dequeue(Queue* q);
-void displayQueue(Queue* q);
+Queue* queue_create();
+void queue_destroy(Queue* queue);
+void queue_initialize(Queue* queue);
+bool queue_isEmpty(Queue* queue);
+void queue_push(Queue* queue, Vehicle* v, const char* destination);
+Vehicle* queue_pop(Queue* queue);
+void queue_display(Queue* queue);

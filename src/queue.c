@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Queue* createQueue()
+Queue* queue_create()
 {
     Queue* newQueue = (Queue*)malloc(sizeof(Queue));
     if(newQueue == NULL)
@@ -11,39 +11,39 @@ Queue* createQueue()
         return NULL;
     }
     
-    initialize_queue(newQueue);
+    queue_initialize(newQueue);
     return newQueue;
 }
 
-void destroyQueue(Queue* q)
+void queue_destroy(Queue* queue)
 {
-    if(q == NULL)
+    if(queue == NULL)
     {
         return;
     }
 
-    while(!isEmpty(q))
+    while(!queue_isEmpty(queue))
     {
-        Vehicle* vehicle = dequeue(q);
-        destroyVehicle(vehicle);
+        Vehicle* vehicle = queue_pop(queue);
+        vehicle_destroy(vehicle);
     }
 
-    free(q);
+    free(queue);
 }
 
-void initialize_queue(Queue* q)
+void queue_initialize(Queue* queue)
 {
-    q->front = NULL;
-    q->back = NULL;
-    q->size = 0;
+    queue->front = NULL;
+    queue->back = NULL;
+    queue->size = 0;
 }
 
-bool isEmpty(Queue* q)
+bool queue_isEmpty(Queue* queue)
 {
-    return q->size == 0;
+    return queue->size == 0;
 }
 
-void enqueue(Queue* q, Vehicle* v, const char* destination)
+void queue_push(Queue* queue, Vehicle* v, const char* destination)
 {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = v;
@@ -74,49 +74,49 @@ void enqueue(Queue* q, Vehicle* v, const char* destination)
         return;
     }
 
-    if(q->front == NULL)
+    if(queue->front == NULL)
     {
-        q->front = q->back = newNode;
+        queue->front = queue->back = newNode;
     }
     else
     {
-        q->back->next = newNode;
-        q->back = newNode;
+        queue->back->next = newNode;
+        queue->back = newNode;
     }
 
-    q->size++;
+    queue->size++;
 }
 
-Vehicle* dequeue(Queue* q)
+Vehicle* queue_pop(Queue* queue)
 {
-    if(isEmpty(q))
+    if(queue_isEmpty(queue))
     {
         return NULL;
     }
 
-    Node* tempNode = q->front;
+    Node* tempNode = queue->front;
     Vehicle* tempVehicle = tempNode->data;
-    q->front = q->front->next;
+    queue->front = queue->front->next;
 
-    if(q->front == NULL)
+    if(queue->front == NULL)
     {
-        q->back = NULL;
+        queue->back = NULL;
     }
 
     free(tempNode);
 
-    q->size--;
+    queue->size--;
 
     return tempVehicle;
 }
 
-void displayQueue(Queue* q)
+void queue_display(Queue* queue)
 {
-    Node* tempNode = q->front;
+    Node* tempNode = queue->front;
     printf("{  ");
     while(tempNode)
     {
-        displayInfo(tempNode->data);
+        vehicle_displayInfo(tempNode->data);
         tempNode=tempNode->next;
     }
     printf("  }");

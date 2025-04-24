@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <jansson.h>
 
-Simulation* createSimulation()
+Simulation* simulation_create()
 {
     Simulation* newSimulation = (Simulation*)malloc(sizeof(Simulation));
     if(newSimulation == NULL)
@@ -13,27 +13,27 @@ Simulation* createSimulation()
         return NULL;
     }
 
-    newSimulation->intersection = createIntersection();
+    newSimulation->intersection = intersection_create();
     newSimulation->currentTime = 0.0;
     newSimulation->timeStep = 1.0;
-    newSimulation->leftVehicles = createQueue();
+    newSimulation->leftVehicles = queue_create();
 
     return newSimulation;
 }
 
-void destroySimulation(Simulation* simulation)
+void simulation_destroy(Simulation* simulation)
 {
     if(simulation == NULL)
     {
         return;
     }
 
-    destroyQueue(simulation->leftVehicles);
-    destroyIntersection(simulation->intersection);
+    queue_destroy(simulation->leftVehicles);
+    intersection_destroy(simulation->intersection);
     free(simulation);
 }
 
-char* runSimulation(Simulation* simulation, const char* line)
+char* simulation_run(Simulation* simulation, const char* line)
 {
     static json_t *stepStatuses = NULL;
 
@@ -56,21 +56,21 @@ char* runSimulation(Simulation* simulation, const char* line)
 
     if(strcmp(line, "Step") == 0)
     {
-        stepNorthSouth(simulation);
-        char *stepStatus = generateStepStatusJSON(simulation);
+        simulation_stepNorthSouth(simulation);
+        char *stepStatus = simulation_generateStepStatusJSON(simulation);
         free(stepStatus);
         simulation->currentTime += simulation->timeStep;
 
-        stepEastWest(simulation);
-        stepStatus = generateStepStatusJSON(simulation);
+        simulation_stepEastWest(simulation);
+        stepStatus = simulation_generateStepStatusJSON(simulation);
         json_array_append_new(stepStatuses, json_loads(stepStatus, 0, NULL));
         free(stepStatus);
         simulation->currentTime += simulation->timeStep;
 
-        while(!isEmpty(simulation->leftVehicles))
+        while(!queue_isEmpty(simulation->leftVehicles))
         {
-            Vehicle* vehicle = dequeue(simulation->leftVehicles);
-            destroyVehicle(vehicle);
+            Vehicle* vehicle = queue_pop(simulation->leftVehicles);
+            vehicle_destroy(vehicle);
         }
     }
     else
@@ -82,15 +82,15 @@ char* runSimulation(Simulation* simulation, const char* line)
         if
         (vehicleId && startRoad && endRoad)
         {
-            Vehicle* vehicle = createVehicle(vehicleId, endRoad);
-            addVehicleToIntersection(simulation->intersection, vehicle, startRoad, endRoad);
+            Vehicle* vehicle = vehicle_create(vehicleId, endRoad);
+            intersection_addVehicle(simulation->intersection, vehicle, startRoad, endRoad);
         }
     }
 
     return NULL;
 }
 
-char* generateStepStatusJSON(Simulation* simulation) {
+char* simulation_generateStepStatusJSON(Simulation* simulation) {
     json_t *root = json_object();
     json_t *leftVehicles = json_array();
 
@@ -108,59 +108,59 @@ char* generateStepStatusJSON(Simulation* simulation) {
     return json_string;
 }
 
-void displaySimulationState(const Simulation* simulation)
+void simulation_displayState(const Simulation* simulation)
 {
     printf("Simulation Time: %.2f seconds\n", simulation->currentTime);
-    displayIntersection(simulation->intersection);
+    intersection_displayInfo(simulation->intersection);
 }
 
-void stepNorthSouth(Simulation* simulation)
+void simulation_stepNorthSouth(Simulation* simulation)
 {
-    if(!isEmpty(simulation->intersection->northRoadway->straightLane))
+    if(!queue_isEmpty(simulation->intersection->northRoadway->straightLane))
     {
-        Vehicle* vehicle = dequeue(simulation->intersection->northRoadway->straightLane);
+        Vehicle* vehicle = queue_pop(simulation->intersection->northRoadway->straightLane);
         if(vehicle)
         {
-            enqueue(simulation->leftVehicles, vehicle, "left");
+            queue_push(simulation->leftVehicles, vehicle, "left");
             // printf("Vehicle %s left the intersection from north\n", vehicle->id);
         }
     }
 
-    if(!isEmpty(simulation->intersection->southRoadway->straightLane))
+    if(!queue_isEmpty(simulation->intersection->southRoadway->straightLane))
     {
-        Vehicle* vehicle = dequeue(simulation->intersection->southRoadway->straightLane);
+        Vehicle* vehicle = queue_pop(simulation->intersection->southRoadway->straightLane);
         if(vehicle)
         {
-            enqueue(simulation->leftVehicles, vehicle, "left");
+            queue_push(simulation->leftVehicles, vehicle, "left");
             // printf("Vehicle %s left the intersection from south\n", vehicle->id);
         }
     }
 }
 
-void stepEastWest(Simulation* simulation)
+void simulation_stepEastWest(Simulation* simulation)
 {
-    if(!isEmpty(simulation->intersection->eastRoadway->straightLane))
+    if(!queue_isEmpty(simulation->intersection->eastRoadway->straightLane))
     {
-        Vehicle* vehicle = dequeue(simulation->intersection->eastRoadway->straightLane);
+        Vehicle* vehicle = queue_pop(simulation->intersection->eastRoadway->straightLane);
         if(vehicle)
         {
-            enqueue(simulation->leftVehicles, vehicle, "left");
+            queue_push(simulation->leftVehicles, vehicle, "left");
             // printf("Vehicle %s left the intersection from east\n", vehicle->id);
         }
     }
 
-    if (!isEmpty(simulation->intersection->westRoadway->straightLane))
+    if (!queue_isEmpty(simulation->intersection->westRoadway->straightLane))
     {
-        Vehicle* vehicle = dequeue(simulation->intersection->westRoadway->straightLane);
+        Vehicle* vehicle = queue_pop(simulation->intersection->westRoadway->straightLane);
         if (vehicle)
         {
-            enqueue(simulation->leftVehicles, vehicle, "left");
+            queue_push(simulation->leftVehicles, vehicle, "left");
             // printf("Vehicle %s left the intersection from west\n", vehicle->id);
         }
     }
 }
 
-void clearConsole()
+void simulation_clearConsole()
 {
     #ifdef _WIN32
         system("cls"); // Windows

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-Vehicle* createVehicle(const char* id, /*const char* registrationPlate,*/ const char* destination)
+Vehicle* vehicle_create(const char* id, /*const char* registrationPlate,*/ const char* destination)
 {
     Vehicle* newVehicle = (Vehicle*)malloc(sizeof(Vehicle));
     if(newVehicle == NULL)
@@ -18,7 +18,7 @@ Vehicle* createVehicle(const char* id, /*const char* registrationPlate,*/ const 
     return newVehicle;
 }
 
-void destroyVehicle(Vehicle* vehicle)
+void vehicle_destroy(Vehicle* vehicle)
 {
     if(vehicle == NULL)
     {
@@ -29,7 +29,7 @@ void destroyVehicle(Vehicle* vehicle)
     free(vehicle);
 }
 
-void displayInfo(Vehicle* vehicle)
+void vehicle_displayInfo(Vehicle* vehicle)
 {
     printf("[id=%s and destination road:%s]; ", vehicle->id, vehicle->endRoad);
     // printf("[id=%s and registration number:%s]; ", vehicle->id, vehicle->registrationPlate);

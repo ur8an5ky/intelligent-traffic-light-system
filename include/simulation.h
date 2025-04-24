@@ -10,11 +10,11 @@ typedef struct {
     int leftVehiclesCount;
 } Simulation;
 
-Simulation* createSimulation();
-void destroySimulation(Simulation* simulation);
-char* runSimulation(Simulation* simulation, const char* line);
-char* generateStepStatusJSON(Simulation* simulation);
-void displaySimulationState(const Simulation* simulation);
-void stepNorthSouth(Simulation* simulation);
-void stepEastWest(Simulation* simulation);
-void clearConsole();
+Simulation* simulation_create();
+void simulation_destroy(Simulation* simulation);
+char* simulation_run(Simulation* simulation, const char* line);
+char* simulation_generateStepStatusJSON(Simulation* simulation);
+void simulation_displayState(const Simulation* simulation);
+void simulation_stepNorthSouth(Simulation* simulation);
+void simulation_stepEastWest(Simulation* simulation);
+void simulation_clearConsole();
