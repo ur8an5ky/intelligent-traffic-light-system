@@ -52,5 +52,7 @@ Mkfile.old
 dkms.conf
 
 main
+output/
+valgrind_output.txt
 # for now - will be deleted
 tests/
