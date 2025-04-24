@@ -5,18 +5,14 @@
 
 Vehicle* createVehicle(const char* id, /*const char* registrationPlate,*/ const char* destination)
 {
-    Vehicle* newVehicle = malloc(sizeof(Vehicle));
+    Vehicle* newVehicle = (Vehicle*)malloc(sizeof(Vehicle));
     if(newVehicle == NULL)
     {
         return NULL;
     }
 
-    strncpy(newVehicle->id, id, sizeof(newVehicle->id) - 1);
-    // strncpy(newVehicle->registrationPlate, registrationPlate, sizeof(newVehicle->registrationPlate) - 1);
+    strcpy(newVehicle->id, id);
     strncpy(newVehicle->endRoad, destination, sizeof(newVehicle->endRoad) - 1);
-    
-    newVehicle->id[sizeof(newVehicle->id) - 1] = '\0';
-    // newVehicle->registrationPlate[sizeof(newVehicle->registrationPlate) - 1] = '\0';
     newVehicle->endRoad[sizeof(newVehicle->endRoad) - 1] = '\0';
 
     return newVehicle;
@@ -28,6 +24,7 @@ void destroyVehicle(Vehicle* vehicle)
     {
         return;
     }
+    // printf("Destroyed vehicle: %s\n", vehicle->id);
 
     free(vehicle);
 }

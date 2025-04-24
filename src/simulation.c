@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <jansson.h>
 
 Simulation* createSimulation()
 {
@@ -15,6 +16,7 @@ Simulation* createSimulation()
     newSimulation->intersection = createIntersection();
     newSimulation->currentTime = 0.0;
     newSimulation->timeStep = 1.0;
+    newSimulation->leftVehicles = createQueue();
 
     return newSimulation;
 }
@@ -26,49 +28,84 @@ void destroySimulation(Simulation* simulation)
         return;
     }
 
+    destroyQueue(simulation->leftVehicles);
     destroyIntersection(simulation->intersection);
     free(simulation);
 }
 
-void runSimulation(Simulation* simulation, double duration)
+char* runSimulation(Simulation* simulation, const char* line)
 {
-    double endTime = simulation->currentTime + duration;
+    static json_t *stepStatuses = NULL;
 
-    displaySimulationState(simulation);
-    sleep(5);
-
-    clearConsole();
-    printf("North and South roads have green light.\n");
-    stepNorthSouth(simulation);
-    sleep(5);
-
-    clearConsole();
-    printf("East and West roads have green light.\n");
-    stepEastWest(simulation);
-    sleep(5);
-
-    while(simulation->currentTime < endTime)
+    if(stepStatuses == NULL)
     {
-        clearConsole();
-        displaySimulationState(simulation);
-        sleep(5);
-
-        clearConsole();
-        printf("North and South roads have green light.\n");
-        stepNorthSouth(simulation);
-        sleep(5);
-
-        clearConsole();
-        printf("East and West roads have green light.\n");
-        stepEastWest(simulation);
-        sleep(5);
-
-        simulation->currentTime += 20.0;
+        stepStatuses = json_array();
     }
 
-    clearConsole();
-    displaySimulationState(simulation);
-    sleep(5);
+    if(line == NULL)
+    {
+        json_t *root = json_object();
+        json_object_set_new(root, "stepStatuses", stepStatuses);
+
+        char *final_json = json_dumps(root, JSON_INDENT(2));
+        json_decref(root);
+        stepStatuses = NULL;
+
+        return final_json;
+    }
+
+    if(strcmp(line, "Step") == 0)
+    {
+        stepNorthSouth(simulation);
+        char *stepStatus = generateStepStatusJSON(simulation);
+        free(stepStatus);
+        simulation->currentTime += simulation->timeStep;
+
+        stepEastWest(simulation);
+        stepStatus = generateStepStatusJSON(simulation);
+        json_array_append_new(stepStatuses, json_loads(stepStatus, 0, NULL));
+        free(stepStatus);
+        simulation->currentTime += simulation->timeStep;
+
+        while(!isEmpty(simulation->leftVehicles))
+        {
+            Vehicle* vehicle = dequeue(simulation->leftVehicles);
+            destroyVehicle(vehicle);
+        }
+    }
+    else
+    {
+        char *vehicleId = strtok((char*)line, ",");
+        char *startRoad = strtok(NULL, ",");
+        char *endRoad = strtok(NULL, ",");
+
+        if
+        (vehicleId && startRoad && endRoad)
+        {
+            Vehicle* vehicle = createVehicle(vehicleId, endRoad);
+            addVehicleToIntersection(simulation->intersection, vehicle, startRoad, endRoad);
+        }
+    }
+
+    return NULL;
+}
+
+char* generateStepStatusJSON(Simulation* simulation) {
+    json_t *root = json_object();
+    json_t *leftVehicles = json_array();
+
+    Node* tempNode = simulation->leftVehicles->front;
+    while (tempNode) {
+        json_array_append_new(leftVehicles, json_string(tempNode->data->id));
+        tempNode = tempNode->next;
+    }
+
+    json_object_set_new(root, "leftVehicles", leftVehicles);
+
+    char *json_string = json_dumps(root, JSON_INDENT(2));
+    json_decref(root);
+
+    return json_string;
 }
 
 void displaySimulationState(const Simulation* simulation)
@@ -82,15 +119,21 @@ void stepNorthSouth(Simulation* simulation)
     if(!isEmpty(simulation->intersection->northRoadway->straightLane))
     {
         Vehicle* vehicle = dequeue(simulation->intersection->northRoadway->straightLane);
-        printf("Vehicle %s left the intersection from north\n", vehicle->id);
-        destroyVehicle(vehicle);
+        if(vehicle)
+        {
+            enqueue(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s left the intersection from north\n", vehicle->id);
+        }
     }
 
     if(!isEmpty(simulation->intersection->southRoadway->straightLane))
     {
         Vehicle* vehicle = dequeue(simulation->intersection->southRoadway->straightLane);
-        printf("Vehicle %s left the intersection from south\n", vehicle->id);
-        destroyVehicle(vehicle);
+        if(vehicle)
+        {
+            enqueue(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s left the intersection from south\n", vehicle->id);
+        }
     }
 }
 
@@ -99,15 +142,21 @@ void stepEastWest(Simulation* simulation)
     if(!isEmpty(simulation->intersection->eastRoadway->straightLane))
     {
         Vehicle* vehicle = dequeue(simulation->intersection->eastRoadway->straightLane);
-        printf("Vehicle %s left the intersection from east\n", vehicle->id);
-        destroyVehicle(vehicle);
+        if(vehicle)
+        {
+            enqueue(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s left the intersection from east\n", vehicle->id);
+        }
     }
 
-    if(!isEmpty(simulation->intersection->westRoadway->straightLane))
+    if (!isEmpty(simulation->intersection->westRoadway->straightLane))
     {
         Vehicle* vehicle = dequeue(simulation->intersection->westRoadway->straightLane);
-        printf("Vehicle %s left the intersection from west\n", vehicle->id);
-        destroyVehicle(vehicle);
+        if (vehicle)
+        {
+            enqueue(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s left the intersection from west\n", vehicle->id);
+        }
     }
 }
 
