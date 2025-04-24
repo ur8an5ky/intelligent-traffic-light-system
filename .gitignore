@@ -53,6 +53,5 @@ dkms.conf
 
 main
 output/
+tests_bin/
 valgrind_output.txt
-# for now - will be deleted
-tests/
