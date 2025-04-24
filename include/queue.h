@@ -4,7 +4,7 @@
 
 #include <stdbool.h>
 
-enum Destination {NORTH, EAST, SOUTH, WEST};
+enum Destination {NORTH, EAST, SOUTH, WEST, LEFT};
 typedef struct Node Node;
 
 typedef struct {
@@ -13,7 +13,7 @@ typedef struct {
     int size;
 } Queue;
 
-struct Node{
+struct Node {
     Vehicle* data;
     enum Destination endRoad;
     Node* next;

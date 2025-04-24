@@ -1,7 +1,7 @@
 #include "queue.h"
 #include <stdio.h>
-#include <stdlib.h> // malloc, free
-#include <string.h> // strcpy
+#include <stdlib.h>
+#include <string.h>
 
 Queue* createQueue()
 {
@@ -65,6 +65,10 @@ void enqueue(Queue* q, Vehicle* v, const char* destination)
     {
         newNode->endRoad = WEST;
     }
+    else if(strcmp(destination, "left") == 0)
+    {
+        newNode->endRoad = LEFT;
+    }
     else
     {
         return;
@@ -109,7 +113,7 @@ Vehicle* dequeue(Queue* q)
 void displayQueue(Queue* q)
 {
     Node* tempNode = q->front;
-    printf("Queue:{  ");
+    printf("{  ");
     while(tempNode)
     {
         displayInfo(tempNode->data);
