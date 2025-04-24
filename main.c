@@ -7,6 +7,19 @@
 #include <jansson.h>
 #include "simulation.h"
 
+/**
+ * The main entry point of the program.
+ *
+ * The program processes the input file and writes the result to an output file in JSON format.
+ * 
+ * @param argc Number of command line arguments.
+ * @param argv An array of command line arguments. 
+ *             Expected arguments:
+ *             - argv[1]: input file name (with data).
+ *             - argv[2]: name of output file (for JSON writing).
+ * 
+ * @return Returns EXIT_SUCCESS if the program completed successfully, or EXIT_FAILURE in case of an error.
+ */
 int main(int argc, char *argv[])
 {
     if(argc != 3)
