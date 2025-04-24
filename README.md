@@ -87,3 +87,5 @@ Use WSL or Linux.
 7. If you want, you can check if the application has any memory or optimization errors using the Valgrind tool:
 `valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind_output.txt ./main data.json output.json`
 Output with error information will be in the file `valgrind_output.txt`.
+8. To perform tests, you have to install Check framework, type: `sudo apt update` and then `sudo apt install check`. Check in C is a unit testing framework that provides a simple and flexible way to write and run tests for C programs.
+9. Execute `make test` command.
