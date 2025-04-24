@@ -89,3 +89,4 @@ Use WSL or Linux.
 Output with error information will be in the file `valgrind_output.txt`.
 8. To perform tests, you have to install Check framework, type: `sudo apt update` and then `sudo apt install check`. Check in C is a unit testing framework that provides a simple and flexible way to write and run tests for C programs.
 9. Execute `make test` command.
+10. To see Doxygen documentation, execute `doxygen Doxyfile` and open `docs/html/index.html` file in your browser.
