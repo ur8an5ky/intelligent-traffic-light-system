@@ -1,38 +1,66 @@
-#include "simulation.h"
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <jansson.h>
+#include "simulation.h"
 
-int main() {
+int main(int argc, char *argv[])
+{
+    if(argc != 3)
+    {
+        fprintf(stderr, "Usage: %s <input file> <output file>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    char inputFilePath[256];
+    snprintf(inputFilePath, sizeof(inputFilePath), "data/%s", argv[1]);
+
+    char outputFilePath[256];
+    snprintf(outputFilePath, sizeof(outputFilePath), "output/%s", argv[2]);
+
+    mkdir("output", 0777);
+
+    char command[512];
+    snprintf(command, sizeof(command), "python3 scripts/parser.py %s", inputFilePath);
+
+    FILE *fp = popen(command, "r");
+    if(fp == NULL)
+    {
+        perror("Unable to run the command");
+        return EXIT_FAILURE;
+    }
+
     Simulation* simulation = createSimulation();
 
-    Vehicle* vehicle1 = createVehicle("vehicle1", "ABC123QW", "south");
-    Vehicle* vehicle2 = createVehicle("vehicle2", "XYZ789AE", "north");
-    Vehicle* vehicle3 = createVehicle("vehicle3", "LMN456GG", "west");
-    Vehicle* vehicle4 = createVehicle("vehicle4", "QRS678FF", "east");
-    Vehicle* vehicle5 = createVehicle("vehicle5", "ABC0P123", "south");
-    Vehicle* vehicle6 = createVehicle("vehicle6", "XYZWE789", "north");
-    Vehicle* vehicle7 = createVehicle("vehicle7", "LMNKR456", "west");
-    Vehicle* vehicle8 = createVehicle("vehicle8", "QRSLL678", "east");
-    Vehicle* vehicle9 = createVehicle("vehicle9", "ABCW123W", "south");
-    Vehicle* vehicle10 = createVehicle("vehicle10", "XYZT7T89", "north");
-    Vehicle* vehicle11 = createVehicle("vehicle11", "LMN4Y5Y6", "west");
-    Vehicle* vehicle12 = createVehicle("vehicle12", "QRS67UI8", "east");
+    char line[1024];
+    while(fgets(line, sizeof(line), fp) != NULL)
+    {
+        line[strcspn(line, "\n")] = 0;
 
-    addVehicleToIntersection(simulation->intersection, vehicle1, "north", "south");
-    addVehicleToIntersection(simulation->intersection, vehicle2, "south", "north");
-    addVehicleToIntersection(simulation->intersection, vehicle3, "east", "west");
-    addVehicleToIntersection(simulation->intersection, vehicle4, "west", "east");
-    addVehicleToIntersection(simulation->intersection, vehicle5, "north", "east");
-    addVehicleToIntersection(simulation->intersection, vehicle6, "south", "west");
-    addVehicleToIntersection(simulation->intersection, vehicle7, "east", "south");    
-    addVehicleToIntersection(simulation->intersection, vehicle8, "west", "north");
-    addVehicleToIntersection(simulation->intersection, vehicle9, "north", "west");
-    addVehicleToIntersection(simulation->intersection, vehicle10, "south", "east");
-    addVehicleToIntersection(simulation->intersection, vehicle11, "east", "north");    
-    addVehicleToIntersection(simulation->intersection, vehicle12, "west", "south");
+        runSimulation(simulation, line);
+    }
 
-    runSimulation(simulation, 30.0);
+    pclose(fp);
+
+    char *final_json = runSimulation(simulation, NULL);
+
+    FILE *outputFile = fopen(outputFilePath, "w");
+    if(outputFile)
+    {
+        fprintf(outputFile, "%s\n", final_json);
+        fclose(outputFile);
+        printf("JSON was written to the file: %s\n", outputFilePath);
+    }
+    else
+    {
+        perror("Unable to open output file");
+    }
+
+    free(final_json);
 
     destroySimulation(simulation);
-    return 0;
+    return EXIT_SUCCESS;
 }
