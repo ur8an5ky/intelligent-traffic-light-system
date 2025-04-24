@@ -117,6 +117,7 @@ void simulation_displayState(const Simulation* simulation)
 
 void simulation_stepNorthSouth(Simulation* simulation)
 {
+    // Obsługa pojazdów na prostych pasach
     if(!queue_isEmpty(simulation->intersection->northRoadway->straightLane))
     {
         Vehicle* vehicle = queue_pop(simulation->intersection->northRoadway->straightLane);
@@ -136,10 +137,32 @@ void simulation_stepNorthSouth(Simulation* simulation)
             // printf("Vehicle %s left the intersection from south\n", vehicle->id);
         }
     }
+
+    // Obsługa pojazdów na lewych pasach
+    if(!queue_isEmpty(simulation->intersection->northRoadway->leftLane))
+    {
+        Vehicle* vehicle = queue_pop(simulation->intersection->northRoadway->leftLane);
+        if(vehicle)
+        {
+            queue_push(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s turned left from north\n", vehicle->id);
+        }
+    }
+
+    if(!queue_isEmpty(simulation->intersection->southRoadway->leftLane))
+    {
+        Vehicle* vehicle = queue_pop(simulation->intersection->southRoadway->leftLane);
+        if(vehicle)
+        {
+            queue_push(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s turned left from south\n", vehicle->id);
+        }
+    }
 }
 
 void simulation_stepEastWest(Simulation* simulation)
 {
+    // Obsługa pojazdów na prostych pasach
     if(!queue_isEmpty(simulation->intersection->eastRoadway->straightLane))
     {
         Vehicle* vehicle = queue_pop(simulation->intersection->eastRoadway->straightLane);
@@ -150,13 +173,34 @@ void simulation_stepEastWest(Simulation* simulation)
         }
     }
 
-    if (!queue_isEmpty(simulation->intersection->westRoadway->straightLane))
+    if(!queue_isEmpty(simulation->intersection->westRoadway->straightLane))
     {
         Vehicle* vehicle = queue_pop(simulation->intersection->westRoadway->straightLane);
-        if (vehicle)
+        if(vehicle)
         {
             queue_push(simulation->leftVehicles, vehicle, "left");
             // printf("Vehicle %s left the intersection from west\n", vehicle->id);
+        }
+    }
+
+    // Obsługa pojazdów na lewych pasach
+    if(!queue_isEmpty(simulation->intersection->eastRoadway->leftLane))
+    {
+        Vehicle* vehicle = queue_pop(simulation->intersection->eastRoadway->leftLane);
+        if(vehicle)
+        {
+            queue_push(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s turned left from east\n", vehicle->id);
+        }
+    }
+
+    if(!queue_isEmpty(simulation->intersection->westRoadway->leftLane))
+    {
+        Vehicle* vehicle = queue_pop(simulation->intersection->westRoadway->leftLane);
+        if(vehicle)
+        {
+            queue_push(simulation->leftVehicles, vehicle, "left");
+            // printf("Vehicle %s turned left from west\n", vehicle->id);
         }
     }
 }

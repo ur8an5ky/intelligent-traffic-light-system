@@ -12,8 +12,8 @@ typedef struct {
     Queue* straightLane;      /**< Pointer to the queue of vehicles in the straight lane. */
     TrafficLights* straightLights; /**< Pointer to the traffic lights for the straight lane. */
 
-    // Queue* leftLane;       /**< Pointer to the queue for the left lane (currently unused). */
-    // TrafficLights* leftLights;  /**< Pointer to the traffic lights for the left lane (currently unused). */
+    Queue* leftLane;       /**< Pointer to the queue for the left lane. */
+    TrafficLights* leftLights;  /**< Pointer to the traffic lights for the left lane. */
 } Roadway;
 
 /**

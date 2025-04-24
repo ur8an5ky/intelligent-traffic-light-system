@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <jansson.h>
 #include "simulation.h"
+#include "intersection.h"  // Dodaj nagłówek dla intersection_displayQueues
 
 /**
  * The main entry point of the program.
@@ -47,17 +48,24 @@ int main(int argc, char *argv[])
     }
 
     Simulation* simulation = simulation_create();
+    if(simulation == NULL) {
+        fprintf(stderr, "Error creating simulation\n");
+        return EXIT_FAILURE;
+    }
 
     char line[1024];
     while(fgets(line, sizeof(line), fp) != NULL)
     {
         line[strcspn(line, "\n")] = 0;
-
         simulation_run(simulation, line);
     }
 
     pclose(fp);
 
+    // Wyświetlenie wszystkich kolejek na skrzyżowaniu
+    intersection_display(simulation->intersection);
+
+    // Wygenerowanie końcowego JSON-a
     char *final_json = simulation_run(simulation, NULL);
 
     FILE *outputFile = fopen(outputFilePath, "w");
@@ -73,7 +81,6 @@ int main(int argc, char *argv[])
     }
 
     free(final_json);
-
     simulation_destroy(simulation);
     return EXIT_SUCCESS;
 }

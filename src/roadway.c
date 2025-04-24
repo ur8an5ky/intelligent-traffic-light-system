@@ -28,6 +28,9 @@ void roadway_destroy(Roadway* roadway)
 
     queue_destroy(roadway->straightLane);
     trafficLights_destroy(roadway->straightLights);
+
+    queue_destroy(roadway->leftLane);
+    trafficLights_destroy(roadway->leftLights);
     free(roadway);
 }
 
@@ -40,6 +43,9 @@ void roadway_initialize(Roadway* roadway)
 
     roadway->straightLane = queue_create();
     roadway->straightLights = trafficLights_create();
+
+    roadway->leftLane = queue_create();
+    roadway->leftLights = trafficLights_create();
 }
 
 void roadway_displayInfo(const Roadway* roadway)
@@ -51,4 +57,6 @@ void roadway_displayInfo(const Roadway* roadway)
 
     queue_display(roadway->straightLane);
     printf("\tSize: %d\n", roadway->straightLane->size);
+    queue_display(roadway->leftLane);
+    printf("\tSize: %d\n", roadway->leftLane->size);
 }

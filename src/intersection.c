@@ -58,37 +58,67 @@ void intersection_displayInfo(const Intersection* intersection)
 
     printf("###############################################################\n");
 
-    printf("North Roadway:  ");
-    roadway_displayInfo(intersection->northRoadway);
+    printf("North Roadway Straight Lane [size=%d]:\n", intersection->northRoadway->straightLane->size);
+    queue_display(intersection->northRoadway->straightLane);
+    printf("\nNorth Roadway Left Lane:\n");
+    queue_display(intersection->northRoadway->leftLane);
+    
+    printf("\nEast Roadway Straight Lane:\n");
+    queue_display(intersection->eastRoadway->straightLane);
+    printf("\nEast Roadway Left Lane:\n");
+    queue_display(intersection->eastRoadway->leftLane);
 
-    printf("East Roadway:  ");
-    roadway_displayInfo(intersection->eastRoadway);
+    printf("\nSouth Roadway Straight Lane:\n");
+    queue_display(intersection->southRoadway->straightLane);
+    printf("\nSouth Roadway Left Lane:\n");
+    queue_display(intersection->southRoadway->leftLane);
 
-    printf("South Roadway:  ");
-    roadway_displayInfo(intersection->southRoadway);
-
-    printf("West Roadway:  ");
-    roadway_displayInfo(intersection->westRoadway);
+    printf("\nWest Roadway Straight Lane:\n");
+    queue_display(intersection->westRoadway->straightLane);
+    printf("\nWest Roadway Left Lane:\n");
+    queue_display(intersection->westRoadway->leftLane);
 
     printf("###############################################################\n");
 }
 
 void intersection_addVehicle(Intersection* intersection, Vehicle* vehicle, const char* startRoad, const char* direction)
 {
-    if(strcmp(startRoad, "north") == 0)
+    if(strcmp(direction, "left") == 0)
     {
-        queue_push(intersection->northRoadway->straightLane, vehicle, direction);
+        if(strcmp(startRoad, "north") == 0)
+        {
+            queue_push(intersection->northRoadway->leftLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "east") == 0)
+        {
+            queue_push(intersection->eastRoadway->leftLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "south") == 0)
+        {
+            queue_push(intersection->southRoadway->leftLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "west") == 0)
+        {
+            queue_push(intersection->westRoadway->leftLane, vehicle, direction);
+        }
     }
-    else if(strcmp(startRoad, "east") == 0)
+    else
     {
-        queue_push(intersection->eastRoadway->straightLane, vehicle, direction);
-    }
-    else if(strcmp(startRoad, "south") == 0)
-    {
-        queue_push(intersection->southRoadway->straightLane, vehicle, direction);
-    }
-    else if(strcmp(startRoad, "west") == 0)
-    {
-        queue_push(intersection->westRoadway->straightLane, vehicle, direction);
+        if(strcmp(startRoad, "north") == 0)
+        {
+            queue_push(intersection->northRoadway->straightLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "east") == 0)
+        {
+            queue_push(intersection->eastRoadway->straightLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "south") == 0)
+        {
+            queue_push(intersection->southRoadway->straightLane, vehicle, direction);
+        }
+        else if(strcmp(startRoad, "west") == 0)
+        {
+            queue_push(intersection->westRoadway->straightLane, vehicle, direction);
+        }
     }
 }
