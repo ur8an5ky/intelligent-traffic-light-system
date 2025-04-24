@@ -866,7 +866,8 @@ WARN_LOGFILE           =
 
 INPUT                  = main.c \
                         include/ \
-                        tests/
+                        src/
+                        
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
 # libiconv (or the iconv built into libc) for the transcoding. See the libiconv
